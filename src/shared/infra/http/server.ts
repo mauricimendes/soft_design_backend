@@ -11,11 +11,13 @@ import routes from './routes'
 
 import '@shared/infra/typeorm/data-source'
 import '@shared/container'
+import upload from '@config/upload'
 
 const app = express()
 
 app.use(cors())
-app.use(express.json())
+app.use(express.json());
+app.use('/files', express.static(upload.uploadsFolder))
 app.use(routes)
 app.use(errors())
 

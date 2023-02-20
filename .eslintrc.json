@@ -4,7 +4,7 @@
     "node": true
   },
   "extends": [
-    "arbnb/arbnb",
+    "airbnb-base",
     "plugin:@typescript-eslint/recommended",
     "prettier/@typescript-eslint",
     "plugin:prettier/recommended"
