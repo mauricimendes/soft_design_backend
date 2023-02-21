@@ -14,5 +14,6 @@ booksRouter.post('/', ensureAuthenticated, upload.array('images'), booksControll
 booksRouter.get('/', ensureAuthenticated, booksController.show)
 booksRouter.get('/:id', ensureAuthenticated, booksController.index)
 booksRouter.delete('/:id', ensureAuthenticated, booksController.destroy)
+booksRouter.put('/:id', ensureAuthenticated, upload.array('images'), booksController.update)
 
 export default booksRouter

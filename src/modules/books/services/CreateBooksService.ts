@@ -42,14 +42,15 @@ export default class CreateBookService {
 		if (!checkedUserExists) throw new AppError('User not found.', 404)
 		if (!checkedUserExists.is_admin) throw new AppError('User is not admin.', 405)
 
-		let filesName: any = []
+		let filesName: string[] = []
 
 		if (images.length < 0) throw new AppError('Images has required', 404)
 
 		images.map(async ({ filename }) => {
 			await this.storageProvider.saveFile(filename)
-			filesName.push(filename)
 		})
+
+		images.map(({ filename }) => filesName.push(filename))
 
 		images = filesName
 

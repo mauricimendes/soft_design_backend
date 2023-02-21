@@ -6,6 +6,7 @@ import CreateBooksService from '@modules/books/services/CreateBooksService'
 import DeleteBooksService from '@modules/books/services/DeleteBooksService'
 import FindAllBooksService from '@modules/books/services/FindAllBooksService'
 import DetailsBooksService from '@modules/books/services/DetailsBooksService'
+import UpdateBooksService from '@modules/books/services/UpdateBooksService'
 
 export default class BooksController {
 	public async store(request: Request, response: Response): Promise<Response> {
@@ -47,5 +48,27 @@ export default class BooksController {
 		const books = await findBook.execute(id)
 
 		return response.json(books)
+	}
+
+	public async update(request: Request, response: Response): Promise<Response> {
+		const { id } = request.params
+		const { title, author, synopsis, number_pages } = request.body
+		const images = request.files as []
+		const user = request.user
+
+		const updateBooks = container.resolve(UpdateBooksService)
+
+		await updateBooks.execute(id, {
+			title,
+			author,
+			synopsis,
+			number_pages,
+			images,
+			user_id: user.id
+		})
+
+		response.status(200)
+
+		return response.json()
 	}
 }

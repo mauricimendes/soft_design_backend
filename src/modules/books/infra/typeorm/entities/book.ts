@@ -24,7 +24,7 @@ export default class Book {
 	synopsis: string
 
 	@Column()
-	number_page: number
+	number_pages: number
 
 	@CreateDateColumn()
 	created_at: Date
