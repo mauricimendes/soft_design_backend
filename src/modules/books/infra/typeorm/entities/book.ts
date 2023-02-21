@@ -8,8 +8,6 @@ import {
 	DeleteDateColumn
 } from "typeorm"
 
-import { Exclude } from 'class-transformer'
-
 @Entity('books')
 export default class Book {
 
@@ -39,4 +37,7 @@ export default class Book {
 
 	@Column('string', { array: true })
 	images: string[]
+
+	@Column()
+	created_by_admin: string
 }
