@@ -17,7 +17,6 @@ booksRouter.post('/', ensureAuthenticated, upload.array('images'), celebrate({
     author: Joi.string().required(),
     synopsis: Joi.string().required(),
     number_pages: Joi.number().required(),
-    created_by_admin: Joi.string().required(),
   },
 }), booksController.store)
 

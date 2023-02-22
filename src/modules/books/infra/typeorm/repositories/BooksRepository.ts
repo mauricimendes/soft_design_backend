@@ -33,13 +33,13 @@ export default class BooksRepository implements IBooksRepository {
 		await this.repository.update(id, data)
 	}
 
-	public async findAll(title: string, author: string): Promise<Book[]> {
-		const books = await this.repository.find({
-			where: {
-				title: new RegExp(title),
-				author: new RegExp('')
-			}
-		})
+	public async findAll(title?: string, author?: string): Promise<Book[]> {
+		let where = {}
+
+		title != 'undefined' ? Object.assign(where, { title: new RegExp(title!) }) : where
+		author != 'undefined' ? Object.assign(where, { author: new RegExp(author!) }) : where
+
+		const books = await this.repository.find({ where })
 		return books
 	}
 
