@@ -1,9 +1,10 @@
 import { injectable, inject } from 'tsyringe'
 
 import IUsersRepository from '@modules/users/repositories/IUsersRepository'
-import IBooksRepository from '../repositories/IBooksRepository'
-import AppError from '@shared/errors/AppError'
 import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider'
+import IBooksRepository from '../repositories/IBooksRepository'
+import IRentsRepository from '@modules/rents/repositories/IRentsRepository'
+import AppError from '@shared/errors/AppError'
 
 interface IUpdateRequest {
   title: string
@@ -24,7 +25,10 @@ export default class UpdateBooksService {
     private usersRepository: IUsersRepository,
 
     @inject('StorageProvider')
-    private storageProvider: IStorageProvider
+    private storageProvider: IStorageProvider,
+
+    @inject('RentsRepository')
+    private rentsRepository: IRentsRepository
   ) { }
 
   public async execute(id: string, {
@@ -41,8 +45,10 @@ export default class UpdateBooksService {
     if (!chekcedUsersExists.is_admin) throw new AppError('User is not admin.', 409)
 
     const checkedBookExists = await this.booksRepository.findById(id)
-
     if (!checkedBookExists) throw new AppError('Book not found.', 404)
+
+    const checkedBookIsRent = await this.rentsRepository.verifyRentByBookId(id)
+    if (checkedBookIsRent) throw new AppError('The book cannot be erased, as it is rented.', 405)
 
     let filesName: string[] = []
 

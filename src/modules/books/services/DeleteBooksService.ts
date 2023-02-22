@@ -4,6 +4,7 @@ import IBooksRepository from '../repositories/IBooksRepository'
 import AppError from '@shared/errors/AppError'
 import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider'
 import IUsersRepository from '@modules/users/repositories/IUsersRepository'
+import IRentsRepository from '@modules/rents/repositories/IRentsRepository'
 
 @injectable()
 export default class DeleteBooksService {
@@ -15,7 +16,10 @@ export default class DeleteBooksService {
     private storageProvider: IStorageProvider,
 
     @inject('UsersRepository')
-    private usersRepository: IUsersRepository
+    private usersRepository: IUsersRepository,
+
+    @inject('RentsRepository')
+    private rentsRepository: IRentsRepository
   ) { }
 
   public async execute(id: string, user_id: string): Promise<void> {
@@ -26,6 +30,9 @@ export default class DeleteBooksService {
 
     const checkedBookExists = await this.booksRepository.findById(id)
     if (!checkedBookExists) throw new AppError('Book not found', 404)
+
+    const checkedBookIsRent = await this.rentsRepository.verifyRentByBookId(id)
+    if (checkedBookIsRent) throw new AppError('The book cannot be erased, as it is rented.', 405)
 
     checkedBookExists.images.map(async (image) => {
       await this.storageProvider.deleteFile(image)
