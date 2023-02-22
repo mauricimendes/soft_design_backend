@@ -16,8 +16,8 @@ export default class BooksRepository implements IBooksRepository {
 	}
 
 	public async create(data: IBooksCreateDTO): Promise<Book> {
-		const book = await this.repository.save(data)
-		return book
+		const book = this.repository.create(data)
+		return await this.repository.save(book)
 	}
 
 	public async findById(id: string): Promise<Book | null> {
