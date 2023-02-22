@@ -2,11 +2,11 @@ import { container } from 'tsyringe'
 import { Request, Response } from 'express'
 import { instanceToInstance } from 'class-transformer'
 
-import CreateBooksService from '@modules/books/services/CreateBooksService'
-import DeleteBooksService from '@modules/books/services/DeleteBooksService'
-import FindAllBooksService from '@modules/books/services/FindAllBooksService'
-import DetailsBooksService from '@modules/books/services/DetailsBooksService'
-import UpdateBooksService from '@modules/books/services/UpdateBooksService'
+import CreateBooksService from '@modules/books/services/CreateBookService'
+import DeleteBookService from '@modules/books/services/DeleteBookService'
+import FindAllBookService from '@modules/books/services/FindAllBookService'
+import DetailsBookService from '@modules/books/services/DetailsBookService'
+import UpdateBookService from '@modules/books/services/UpdateBookService'
 
 export default class BooksController {
 	public async store(request: Request, response: Response): Promise<Response> {
@@ -16,8 +16,8 @@ export default class BooksController {
 
 		const images = request.files as []
 
-		const createBooks = container.resolve(CreateBooksService)
-		const book = await createBooks.execute({ title, author, synopsis, number_pages, images, user_id: id })
+		const createBook = container.resolve(CreateBooksService)
+		const book = await createBook.execute({ title, author, synopsis, number_pages, images, user_id: id })
 
 		return response.json(instanceToInstance(book))
 	}
@@ -26,8 +26,8 @@ export default class BooksController {
 		const user = request.user
 		const { id } = request.params
 
-		const deleteBooks = container.resolve(DeleteBooksService)
-		await deleteBooks.execute(id, user.id)
+		const deleteBook = container.resolve(DeleteBookService)
+		await deleteBook.execute(id, user.id)
 
 		response.statusCode = 200
 
@@ -37,7 +37,7 @@ export default class BooksController {
 	public async show(request: Request, response: Response): Promise<Response> {
 		const { title, author } = request.query
 
-		const findBooks = container.resolve(FindAllBooksService)
+		const findBooks = container.resolve(FindAllBookService)
 		const books = await findBooks.execute(String(title), String(author))
 
 		return response.json(books)
@@ -46,7 +46,7 @@ export default class BooksController {
 	public async index(request: Request, response: Response): Promise<Response> {
 		const { id } = request.params
 
-		const findBook = container.resolve(DetailsBooksService)
+		const findBook = container.resolve(DetailsBookService)
 		const books = await findBook.execute(id)
 
 		return response.json(books)
@@ -58,9 +58,9 @@ export default class BooksController {
 		const images = request.files as []
 		const user = request.user
 
-		const updateBooks = container.resolve(UpdateBooksService)
+		const updateBook = container.resolve(UpdateBookService)
 
-		await updateBooks.execute(id, {
+		await updateBook.execute(id, {
 			title,
 			author,
 			synopsis,

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 
-import CreateRentsService from '@modules/rents/services/CreateRentsService'
+import CreateRentService from '@modules/rents/services/CreateRentService'
 import UpdateFreeBookRentalService from '@modules/rents/services/UpdateFreeBookRentalService'
 
 export default class RentsController {
@@ -9,9 +9,9 @@ export default class RentsController {
     const { id } = request.params
     const user = request.user
 
-    const createRents = container.resolve(CreateRentsService)
+    const createRent = container.resolve(CreateRentService)
 
-    const rent = await createRents.execute({
+    const rent = await createRent.execute({
       book_id: id,
       user_id: user.id
     })
@@ -21,9 +21,9 @@ export default class RentsController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { id } = request.params
-    const updateRents = container.resolve(UpdateFreeBookRentalService)
+    const updateRent = container.resolve(UpdateFreeBookRentalService)
 
-    await updateRents.execute(id)
+    await updateRent.execute(id)
 
     response.statusCode = 200
 

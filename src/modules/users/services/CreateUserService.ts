@@ -7,7 +7,7 @@ import IHashProvider from '../providers/HashProvider/models/IHashProvider'
 import AppError from '@shared/errors/AppError'
 
 @injectable()
-export default class CreateUsersService {
+export default class CreateUserService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,

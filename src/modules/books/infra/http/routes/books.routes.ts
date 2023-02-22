@@ -3,7 +3,7 @@ import multer from 'multer'
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated'
 import uploadConfig from '@config/upload'
-import BooksController from '../controller/booksController'
+import BooksController from '../controller/BooksController'
 import { celebrate, Joi, Segments } from 'celebrate'
 
 const booksRouter = Router()

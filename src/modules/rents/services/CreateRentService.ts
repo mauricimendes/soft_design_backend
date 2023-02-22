@@ -12,7 +12,7 @@ interface ICreateRequest {
 }
 
 @injectable()
-export default class CreateRentsService {
+export default class CreateRentService {
   constructor(
     @inject('RentsRepository')
     private rentsRepository: IRentsRepository,

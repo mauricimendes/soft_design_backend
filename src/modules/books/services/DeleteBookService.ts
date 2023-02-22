@@ -7,7 +7,7 @@ import IUsersRepository from '@modules/users/repositories/IUsersRepository'
 import IRentsRepository from '@modules/rents/repositories/IRentsRepository'
 
 @injectable()
-export default class DeleteBooksService {
+export default class DeleteBookService {
   constructor(
     @inject('BooksRepository')
     private booksRepository: IBooksRepository,
