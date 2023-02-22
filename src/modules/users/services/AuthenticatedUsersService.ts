@@ -40,7 +40,7 @@ export default class AuthenticatedUserService {
     const { secret, expiresIn } = auth.jwt
 
     const token = sign({}, secret, {
-      subject: user._id.toString(),
+      subject: String(user._id),
       expiresIn
     })
 
