@@ -6,7 +6,7 @@ export default interface IBooksRepository {
 	create(data: IBooksCreateDTO): Promise<Book>
 	delete(id: string): Promise<void>
 	findById(id: string): Promise<Book | null>
-	findAll(): Promise<Book[]>
+	findAll(title: string): Promise<Book[]>
 	details(id: string): Promise<Book | null>
 	update(id: string, data: IUpdateBooksDTO): Promise<void>
 }

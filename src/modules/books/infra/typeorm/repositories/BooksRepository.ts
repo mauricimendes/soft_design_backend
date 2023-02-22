@@ -1,4 +1,4 @@
-import { MongoRepository } from 'typeorm'
+import { MongoRepository, Like, ILike } from 'typeorm'
 import { ObjectId } from 'mongodb'
 
 import dataSource from '@shared/infra/typeorm/data-source'
@@ -33,8 +33,12 @@ export default class BooksRepository implements IBooksRepository {
 		await this.repository.update(id, data)
 	}
 
-	public async findAll(): Promise<Book[]> {
-		const books = await this.repository.find()
+	public async findAll(title: string): Promise<Book[]> {
+		const books = await this.repository.find({
+			where: {
+				title: new RegExp(title)
+			}
+		})
 		return books
 	}
 

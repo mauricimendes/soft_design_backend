@@ -34,9 +34,11 @@ export default class BooksController {
 		return response.json()
 	}
 
-	public async show(_: Request, response: Response): Promise<Response> {
+	public async show(request: Request, response: Response): Promise<Response> {
+		const { title } = request.query
+
 		const findBooks = container.resolve(FindAllBooksService)
-		const books = await findBooks.execute()
+		const books = await findBooks.execute(String(title))
 
 		return response.json(books)
 	}

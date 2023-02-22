@@ -10,8 +10,8 @@ export default class FindAllBooksService {
     private booksRepository: IBooksRepository
   ) { }
 
-  public async execute(): Promise<Book[]> {
-    const books = await this.booksRepository.findAll()
+  public async execute(title: string): Promise<Book[]> {
+    const books = await this.booksRepository.findAll(title)
     return books
   }
 }
