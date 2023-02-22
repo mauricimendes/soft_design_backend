@@ -26,7 +26,7 @@ describe('CreateUser', () => {
       password: '123456789',
     })
 
-    expect(user).toHaveProperty('email')
+    expect(user).toHaveProperty('_id')
     expect(user).toHaveProperty('is_admin', undefined)
   })
 
@@ -39,6 +39,7 @@ describe('CreateUser', () => {
       is_admin: true
     })
 
+    expect(user).toHaveProperty('_id')
     expect(user).toHaveProperty('is_admin', true)
   })
 

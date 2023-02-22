@@ -1,6 +1,7 @@
+import { ObjectId } from 'mongodb'
+
 import ICreateUsersDTO from '@modules/users/dtos/ICreateUsersDTO'
 import User from '@modules/users/infra/typeorm/entities/User'
-import { ObjectId } from 'mongodb'
 import IUsersRepository from '../IUsersRepository'
 
 export default class FakeUsersRepository implements IUsersRepository {
@@ -8,7 +9,7 @@ export default class FakeUsersRepository implements IUsersRepository {
 
   public async create(data: ICreateUsersDTO): Promise<User> {
     const user = new User()
-    Object.assign(user, data)
+    Object.assign(user, { _id: new ObjectId() }, data)
     this.users.push(user)
     return user
   }
