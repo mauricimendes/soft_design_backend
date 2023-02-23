@@ -1,6 +1,6 @@
 import IBooksCreateDTO from "../dtos/ICreateBooksDTO"
 import IUpdateBooksDTO from "../dtos/IUpdateBooksDTO"
-import Book from "../infra/typeorm/entities/book"
+import Book from "../infra/typeorm/entities/Book"
 
 export default interface IBooksRepository {
 	create(data: IBooksCreateDTO): Promise<Book>

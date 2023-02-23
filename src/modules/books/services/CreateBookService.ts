@@ -1,6 +1,6 @@
 import { injectable, inject } from 'tsyringe'
 
-import Book from '../infra/typeorm/entities/book'
+import Book from '../infra/typeorm/entities/Book'
 import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider'
 import IUsersRepository from '@modules/users/repositories/IUsersRepository'
 import IBooksRepository from '../repositories/IBooksRepository'

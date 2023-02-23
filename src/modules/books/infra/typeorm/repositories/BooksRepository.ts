@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb'
 
 import dataSource from '@shared/infra/typeorm/data-source'
 
-import Book from "../entities/book"
+import Book from "../entities/Book"
 import IBooksRepository from "@modules/books/repositories/IBooksRepository"
 import IBooksCreateDTO from "@modules/books/dtos/ICreateBooksDTO"
 import IUpdateBooksDTO from '@modules/books/dtos/IUpdateBooksDTO'
