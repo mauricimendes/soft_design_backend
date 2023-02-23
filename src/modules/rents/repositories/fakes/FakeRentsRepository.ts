@@ -12,6 +12,7 @@ export default class FakeRentsRepository implements IRentsRepository {
     const rent = new Rent()
     Object.assign(rent, { _id: new ObjectId() }, data)
     this.rents.push(rent)
+    console.log(this.rents)
     return rent
   }
 
