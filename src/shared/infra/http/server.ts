@@ -4,7 +4,6 @@ import 'dotenv/config'
 import express, { Response, NextFunction, Request } from 'express'
 import cors from 'cors'
 import { errors } from 'celebrate'
-
 import 'express-async-errors'
 
 import AppError from '../../errors/AppError'
