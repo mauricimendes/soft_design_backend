@@ -23,7 +23,7 @@ Para rodar o projeto é necessário:
 
 ## Rodando os testes
 
-Para rodar ultilize o comando:
+Para rodar utilize o comando:
 
 ```bash
   npm run test
