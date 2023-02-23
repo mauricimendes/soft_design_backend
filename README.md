@@ -57,7 +57,7 @@ Para rodar utilize o comando:
 | `email` | `string` |  maurici@example.com | **Obrigatório**. Email do usuário
 | `password` | `string` |  123@abc | **Obrigatório**. Senha do usuário
 | `is_admin` | `boolean` |  true | **Não obrigatório**. Usuário é Admin?
-| `phone` | `string` |  (00) 12345-6789 | **Obrigatório**. Numéro de Telefone do usuário
+| `phone` | `string` |  (00) 12345-6789 | **Obrigatório**. Número de Telefone do usuário
 
 
 #### Login - application/json
@@ -69,7 +69,7 @@ Para rodar utilize o comando:
 | BODY   | Tipo       | Exemplo     | Descrição |
 | :---------- | :--------- | :--------- | :------------- |
 | `email` | `string` |  maurici@example.com | **Obrigatório**. Email do usuário
-| `password` | `string` |  123@abc | **Obrigatório**. Senha do usuáriousuário
+| `password` | `string` |  123@abc | **Obrigatório**. Senha do usuário
 
 #### Cria um livro- multipart/form-data
 
