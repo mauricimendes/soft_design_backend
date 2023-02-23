@@ -41,6 +41,7 @@ Para rodar utilize o comando:
 - Ver detalhes de um livro
 - Alugar livro - se o mesmo não estiver alugado
 - Devolver livro
+- Visualizar imagens dos livros
 
 
 ## Documentação da API
@@ -161,8 +162,12 @@ Para rodar utilize o comando:
 | :---------- | :--------- | :--------- | :------------- |
 | `api_key` | `authBearer` | eyJhbGciOiJIUz... | **Obrigatório**. JWT TOKEN
 
+#### Imagens
 
-
+```http
+  PATCH /files
+```
+Rota aberta para visualizar as imagens dos livros.
 
 ## Variáveis de Ambiente
 
