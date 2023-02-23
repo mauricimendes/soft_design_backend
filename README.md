@@ -1,7 +1,7 @@
 
 # My Books - Backend
 
-Projeto escrito em NodeJS + Typescript, onde temos como principal funcionalidade, alugar livros.
+Projeto escrito em NodeJS + Typescript, onde temos como principal funcionalidade, alugar livros. Baseado inteiramente no S.O.L.I.D para a construção da arquitetura e padrão de escrita.
 
 
 ## Autores
