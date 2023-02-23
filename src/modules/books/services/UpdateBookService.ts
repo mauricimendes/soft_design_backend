@@ -42,7 +42,7 @@ export default class UpdateBooksService {
     const chekcedUsersExists = await this.usersRepository.findById(user_id)
 
     if (!chekcedUsersExists) throw new AppError('User not found.', 404)
-    if (!chekcedUsersExists.is_admin) throw new AppError('User is not admin.', 409)
+    if (!chekcedUsersExists.is_admin) throw new AppError('User is not admin.', 405)
 
     const checkedBookExists = await this.booksRepository.findById(id)
     if (!checkedBookExists) throw new AppError('Book not found.', 404)

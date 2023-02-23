@@ -26,7 +26,7 @@ export default class DeleteBookService {
     const checkedUserExists = await this.usersRepository.findById(user_id)
 
     if (!checkedUserExists) throw new AppError('User not found.', 404)
-    if (!checkedUserExists.is_admin) throw new AppError('User is not admin.', 409)
+    if (!checkedUserExists.is_admin) throw new AppError('User is not admin.', 405)
 
     const checkedBookExists = await this.booksRepository.findById(id)
     if (!checkedBookExists) throw new AppError('Book not found', 404)

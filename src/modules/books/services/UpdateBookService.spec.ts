@@ -1,22 +1,32 @@
+import FakeRentsRepository from '@modules/rents/repositories/fakes/FakeRentsRepository'
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository'
+import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider'
+import AppError from '@shared/errors/AppError'
 import FakeBooksRepository from '../repositories/fakes/FakeBooksRepository'
-import FindAllBookService from './FindAllBookService'
+import UpdateBooksService from './UpdateBookService'
 
 let fakeBooksRepository: FakeBooksRepository
 let fakeUsersRepository: FakeUsersRepository
-let findAll: FindAllBookService
+let fakeStorageProvider: FakeStorageProvider
+let fakeRentsRepository: FakeRentsRepository
+let updateBook: UpdateBooksService
 
-describe('FindAllBooks', () => {
+describe('UpdateBook', () => {
   beforeEach(() => {
     fakeBooksRepository = new FakeBooksRepository()
+    fakeStorageProvider = new FakeStorageProvider()
     fakeUsersRepository = new FakeUsersRepository()
+    fakeRentsRepository = new FakeRentsRepository()
 
-    findAll = new FindAllBookService(
-      fakeBooksRepository
+    updateBook = new UpdateBooksService(
+      fakeBooksRepository,
+      fakeUsersRepository,
+      fakeStorageProvider,
+      fakeRentsRepository
     )
   })
 
-  it('should be able to list the books without filters.', async () => {
+  it('should be able to update a book.', async () => {
     const user = await fakeUsersRepository.create({
       name: 'Jonh Doe',
       email: 'johndoe@example.com',
@@ -25,58 +35,41 @@ describe('FindAllBooks', () => {
       is_admin: true
     })
 
-    const book1 = await fakeBooksRepository.create({
+    const book = await fakeBooksRepository.create({
+      title: 'Harry Potter',
+      author: 'J.K. Rowling',
+      number_pages: 206,
+      synopsis: 'Synopsis of book and your descriptions',
+      created_by_admin: String(user._id),
+      images: [
+        { filename: 'capa.jpg' },
+        { filename: 'verso.jpg' }
+      ]
+    })
+
+    expect(await updateBook.execute(String((book)._id), {
       title: 'Harry Potter e a pedra filosofal',
       author: 'J.K. Rowling',
       number_pages: 206,
       synopsis: 'Synopsis of book and your descriptions',
-      created_by_admin: String(user._id),
+      user_id: String(user._id),
       images: [
         { filename: 'capa.jpg' },
         { filename: 'verso.jpg' }
       ]
-    })
-
-    const book2 = await fakeBooksRepository.create({
-      title: 'Harry Potter e a câmara secreta',
-      author: 'J.K. Rowling',
-      number_pages: 206,
-      synopsis: 'Synopsis of book and your descriptions',
-      created_by_admin: String(user._id),
-      images: [
-        { filename: 'capa.jpg' },
-        { filename: 'verso.jpg' }
-      ]
-    })
-
-    const book3 = await fakeBooksRepository.create({
-      title: 'Harry Potter e o prisioneiro de Azkaban',
-      author: 'J.K. Rowling',
-      number_pages: 206,
-      synopsis: 'Synopsis of book and your descriptions',
-      created_by_admin: String(user._id),
-      images: [
-        { filename: 'capa.jpg' },
-        { filename: 'verso.jpg' }
-      ]
-    })
-
-    const books = await findAll.execute()
-
-    expect(books).toEqual([book1, book2, book3])
+    })).toEqual(undefined)
   })
 
-  it('should be able to list the books with filters.', async () => {
+  it('should not be able to create a book when user is not admin.', async () => {
     const user = await fakeUsersRepository.create({
       name: 'Jonh Doe',
       email: 'johndoe@example.com',
       phone: '(99) 12345-6789',
       password: '123456789',
-      is_admin: true
     })
 
-    const book1 = await fakeBooksRepository.create({
-      title: 'Harry Potter e a pedra filosofal',
+    const book = await fakeBooksRepository.create({
+      title: 'Harry Potter',
       author: 'J.K. Rowling',
       number_pages: 206,
       synopsis: 'Synopsis of book and your descriptions',
@@ -87,21 +80,16 @@ describe('FindAllBooks', () => {
       ]
     })
 
-    const book2 = await fakeBooksRepository.create({
-      title: 'Revolução dos bichos',
-      author: 'George Orwell',
+    await expect(updateBook.execute(String((book)._id), {
+      title: 'Harry Potter e a pedra filosofal',
+      author: 'J.K. Rowling',
       number_pages: 206,
       synopsis: 'Synopsis of book and your descriptions',
-      created_by_admin: String(user._id),
+      user_id: String(user._id),
       images: [
         { filename: 'capa.jpg' },
         { filename: 'verso.jpg' }
       ]
-    })
-
-    const books = await findAll.execute('Harry')
-
-    expect(books).toEqual([book1])
+    })).rejects.toEqual(new AppError('User is not admin.', 405))
   })
-
 })

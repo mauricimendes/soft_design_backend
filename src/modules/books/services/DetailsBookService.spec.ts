@@ -1,25 +1,22 @@
-import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider'
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository'
 import FakeBooksRepository from '../repositories/fakes/FakeBooksRepository'
 import DetailsBookService from './DetailsBookService'
 
 let fakeBooksRepository: FakeBooksRepository
 let fakeUsersRepository: FakeUsersRepository
-let fakeHashProvider: FakeHashProvider
 let details: DetailsBookService
 
 describe('FindAllBooks', () => {
   beforeEach(() => {
     fakeBooksRepository = new FakeBooksRepository()
     fakeUsersRepository = new FakeUsersRepository()
-    fakeHashProvider = new FakeHashProvider()
 
     details = new DetailsBookService(
       fakeBooksRepository
     )
   })
 
-  it('should be able to show details a book', async () => {
+  it('should be able to show details a book.', async () => {
     const user = await fakeUsersRepository.create({
       name: 'Jonh Doe',
       email: 'johndoe@example.com',

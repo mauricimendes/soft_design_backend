@@ -20,9 +20,30 @@ export default class FakeBooksRepository implements IBooksRepository {
     return findBook ? findBook : null
   }
 
-  public async delete(id: string): Promise<void> { }
+  public async delete(id: string): Promise<void> {
+    this.books.map(book => book._id !== new ObjectId(id))
+  }
 
-  public async update(id: string, data: IUpdateBooksDTO): Promise<void> { }
+  public async update(id: string, data: IUpdateBooksDTO): Promise<void> {
+    const update = this.books.map(book => {
+      if (book._id === new ObjectId(id)) {
+        book = {
+          _id: new ObjectId(id),
+          author: String(data.author),
+          images: data.images ? data.images : book.images,
+          number_pages: Number(data.number_pages),
+          synopsis: String(data.synopsis),
+          title: String(data.title),
+          created_by_admin: book.created_by_admin,
+          created_at: book.created_at,
+          updated_at: book.updated_at,
+          deleted_at: book.deleted_at
+        }
+      }
+      return book
+    })
+    this.books = update
+  }
 
   public async findAll(title?: string, author?: string): Promise<Book[]> {
     let books = this.books

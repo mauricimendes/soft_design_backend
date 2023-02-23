@@ -1,28 +1,32 @@
+import FakeRentsRepository from '@modules/rents/repositories/fakes/FakeRentsRepository'
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository'
 import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider'
 import AppError from '@shared/errors/AppError'
 import FakeBooksRepository from '../repositories/fakes/FakeBooksRepository'
-import CreateBookService from './CreateBookService'
+import DeleteBookService from './DeleteBookService'
 
 let fakeBooksRepository: FakeBooksRepository
 let fakeUsersRepository: FakeUsersRepository
+let fakeRentsRepository: FakeRentsRepository
 let fakeStorageProvider: FakeStorageProvider
-let createBook: CreateBookService
+let deleteBook: DeleteBookService
 
-describe('CreateBook', () => {
+describe('DeleteBook', () => {
   beforeEach(() => {
     fakeBooksRepository = new FakeBooksRepository()
-    fakeStorageProvider = new FakeStorageProvider()
     fakeUsersRepository = new FakeUsersRepository()
+    fakeRentsRepository = new FakeRentsRepository()
+    fakeStorageProvider = new FakeStorageProvider
 
-    createBook = new CreateBookService(
+    deleteBook = new DeleteBookService(
       fakeBooksRepository,
       fakeStorageProvider,
-      fakeUsersRepository
+      fakeUsersRepository,
+      fakeRentsRepository
     )
   })
 
-  it('should be able to create a new book.', async () => {
+  it('should be able to delete a book.', async () => {
     const user = await fakeUsersRepository.create({
       name: 'Jonh Doe',
       email: 'johndoe@example.com',
@@ -31,23 +35,24 @@ describe('CreateBook', () => {
       is_admin: true
     })
 
-    const book = await createBook.execute({
-      title: 'Harry Potter',
+    const book = await fakeBooksRepository.create({
+      title: 'Harry Potter e a pedra filosofal',
       author: 'J.K. Rowling',
       number_pages: 206,
       synopsis: 'Synopsis of book and your descriptions',
-      user_id: String(user._id),
+      created_by_admin: String(user._id),
       images: [
         { filename: 'capa.jpg' },
         { filename: 'verso.jpg' }
       ]
     })
 
-    expect(book).toHaveProperty('_id')
-    expect(book).toHaveProperty('images', ['capa.jpg', 'verso.jpg'])
+    const deletedBook = await deleteBook.execute(book._id.toString(), user._id.toString())
+
+    expect(deletedBook).toEqual(undefined)
   })
 
-  it('should not be able to create a book when user is not admin.', async () => {
+  it('should not be able to delete book when user is not admin.', async () => {
     const user = await fakeUsersRepository.create({
       name: 'Jonh Doe',
       email: 'johndoe@example.com',
@@ -55,16 +60,20 @@ describe('CreateBook', () => {
       password: '123456789',
     })
 
-    await expect(createBook.execute({
-      title: 'Harry Potter',
+    const book = await fakeBooksRepository.create({
+      title: 'Harry Potter e a pedra filosofal',
       author: 'J.K. Rowling',
       number_pages: 206,
       synopsis: 'Synopsis of book and your descriptions',
-      user_id: String(user._id),
+      created_by_admin: user._id.toString(),
       images: [
         { filename: 'capa.jpg' },
         { filename: 'verso.jpg' }
       ]
-    })).rejects.toEqual(new AppError('User is not admin.', 405))
+    })
+
+    await expect(
+      deleteBook.execute(book._id.toString(), user._id.toString())
+    ).rejects.toEqual(new AppError('User is not admin.', 405))
   })
 })

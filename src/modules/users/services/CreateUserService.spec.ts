@@ -18,7 +18,7 @@ describe('CreateUser', () => {
     )
   })
 
-  it('should be able to create a new user when is not admin', async () => {
+  it('should be able to create a new user when is not admin.', async () => {
     const user = await createUser.execute({
       name: 'Jonh Doe',
       email: 'johndoe@example.com',
@@ -30,7 +30,7 @@ describe('CreateUser', () => {
     expect(user).toHaveProperty('is_admin', undefined)
   })
 
-  it('should be able to create a new user when is admin', async () => {
+  it('should be able to create a new user when is admin.', async () => {
     const user = await createUser.execute({
       name: 'Jonh Doe',
       email: 'johndoe@example.com',
@@ -43,7 +43,7 @@ describe('CreateUser', () => {
     expect(user).toHaveProperty('is_admin', true)
   })
 
-  it('should be able to create a new user with same email from another', async () => {
+  it('should be able to create a new user with same email from another.', async () => {
     await createUser.execute({
       name: 'Jonh Doe',
       email: 'johndoe@example.com',
