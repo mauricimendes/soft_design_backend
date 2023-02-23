@@ -1,3 +1,5 @@
+import upload from "@config/upload"
+import { Expose } from "class-transformer"
 import {
 	Entity,
 	ObjectID,
@@ -40,4 +42,14 @@ export default class Book {
 
 	@Column()
 	created_by_admin: string
+
+	@Expose({ name: 'images_url' })
+	getImagesUrl(): string[] {
+		switch (upload.driver) {
+			case 'disk':
+				return this.images.map(image => `${process.env.APP_API_URL}/files/${image}`)
+			default:
+				return []
+		}
+	}
 }

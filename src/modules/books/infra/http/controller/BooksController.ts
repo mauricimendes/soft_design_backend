@@ -40,7 +40,7 @@ export default class BooksController {
 		const findBooks = container.resolve(FindAllBookService)
 		const books = await findBooks.execute(String(title), String(author))
 
-		return response.json(books)
+		return response.json(instanceToInstance(books))
 	}
 
 	public async index(request: Request, response: Response): Promise<Response> {
@@ -49,7 +49,7 @@ export default class BooksController {
 		const findBook = container.resolve(DetailsBookService)
 		const books = await findBook.execute(id)
 
-		return response.json(books)
+		return response.json(instanceToInstance(books))
 	}
 
 	public async update(request: Request, response: Response): Promise<Response> {

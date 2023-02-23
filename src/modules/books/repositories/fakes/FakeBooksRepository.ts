@@ -37,7 +37,8 @@ export default class FakeBooksRepository implements IBooksRepository {
           created_by_admin: book.created_by_admin,
           created_at: book.created_at,
           updated_at: book.updated_at,
-          deleted_at: book.deleted_at
+          deleted_at: book.deleted_at,
+          getImagesUrl: () => []
         }
       }
       return book

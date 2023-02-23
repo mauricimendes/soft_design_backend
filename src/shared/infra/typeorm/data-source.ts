@@ -1,10 +1,10 @@
 import { DataSource } from 'typeorm'
 
 const dataSource = new DataSource({
-	type: "mongodb",
-	host: "localhost",
-	port: 27017,
-	database: "my_books",
+	type: 'mongodb',
+	host: process.env.APP_DATA_SOURCE_HOST,
+	port: Number(process.env.APP_DATA_SOURCE_PORT),
+	database: process.env.APP_DATA_SOURCE_DATABASE,
 	synchronize: true,
 	useUnifiedTopology: true,
 	entities: [
